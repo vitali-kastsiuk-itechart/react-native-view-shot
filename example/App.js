@@ -11,8 +11,9 @@ import {
   Slider,
   WebView
 } from "react-native";
+import SvgUri from "react-native-svg-uri";
 import omit from "lodash/omit";
-import { captureRef } from "react-native-view-shot";
+import { captureRef, captureScreen } from "react-native-view-shot";
 import { Surface } from "gl-react-native";
 import GL from "gl-react";
 import MapView from "react-native-maps";
@@ -54,7 +55,10 @@ export default class App extends Component {
   };
 
   snapshot = refname => () =>
-    captureRef(this.refs[refname], this.state.value)
+    (refname
+      ? captureRef(this.refs[refname], this.state.value)
+      : captureScreen(this.state.value)
+    )
       .then(
         res =>
           this.state.value.result !== "tmpfile"
@@ -143,10 +147,12 @@ export default class App extends Component {
               onPress={this.snapshot("complex")}
             />
             <Btn label="📷 All (ScrollView)" onPress={this.snapshot("full")} />
+            <Btn label="📷 SVG" onPress={this.snapshot("svg")} />
             <Btn label="📷 GL React" onPress={this.snapshot("gl")} />
             <Btn label="📷 MapView" onPress={this.snapshot("mapview")} />
             <Btn label="📷 WebView" onPress={this.snapshot("webview")} />
             <Btn label="📷 Video" onPress={this.snapshot("video")} />
+            <Btn label="📷 Native Screenshot" onPress={this.snapshot()} />
             <Btn
               label="📷 Empty View (should crash)"
               onPress={this.snapshot("empty")}
@@ -252,9 +258,18 @@ export default class App extends Component {
         <View ref="empty" collapsable={false} />
         <View style={styles.experimental} ref="complex" collapsable={false}>
           <Text style={styles.experimentalTitle}>Experimental Stuff</Text>
-          <Surface ref="gl" width={300} height={300}>
-            <HelloGL blue={0.5} />
-          </Surface>
+          <View ref="svg" collapsable={false}>
+            <SvgUri
+              width={200}
+              height={200}
+              source={require("./homer-simpson.svg")}
+            />
+          </View>
+          <View ref="gl" collapsable={false}>
+            <Surface width={300} height={300}>
+              <HelloGL blue={0.5} />
+            </Surface>
+          </View>
           <MapView
             ref="mapview"
             initialRegion={{
