@@ -1,11 +1,12 @@
 #import "RNViewShot.h"
 #import <AVFoundation/AVFoundation.h>
-#import <React/RCTLog.h>
-#import <React/UIView+React.h>
-#import <React/RCTUtils.h>
+#import <React/RCTBridge.h>
 #import <React/RCTConvert.h>
+#import <React/RCTLog.h>
 #import <React/RCTScrollView.h>
 #import <React/RCTUIManager.h>
+#import <React/RCTUtils.h>
+#import <React/UIView+React.h>
 #if __has_include(<React/RCTUIManagerUtils.h>)
 #import <React/RCTUIManagerUtils.h>
 #endif
@@ -24,7 +25,7 @@ RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(captureScreen: (NSDictionary *)options
                   resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject) 
+                  reject:(RCTPromiseRejectBlock)reject)
 {
   [self captureRef: [NSNumber numberWithInt:-1] withOptions:options resolve:resolve reject:reject];
 }
@@ -106,7 +107,7 @@ RCT_EXPORT_METHOD(captureRef:(nonnull NSNumber *)target
     }
 
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
-    
+
     success = [rendered drawViewHierarchyInRect:(CGRect){CGPointZero, size} afterScreenUpdates:YES];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

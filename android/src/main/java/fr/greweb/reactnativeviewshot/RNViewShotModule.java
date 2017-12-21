@@ -55,14 +55,23 @@ public class RNViewShotModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void releaseCapture(String uri) {
-        final String path = Uri.parse(uri).getPath();
-        if (path == null) return;
-        File file = new File(path);
-        if (!file.exists()) return;
-        File parent = file.getParentFile();
-        if (parent.equals(reactContext.getExternalCacheDir()) || parent.equals(reactContext.getCacheDir())) {
-            file.delete();
-        }
+
+//         File file = new File(Uri.parse(uri).getPath());
+//         if (!file.exists()) return;
+//         File parent = file.getParentFile();
+//         if (parent.equals(reactContext.getExternalCacheDir()) || parent.equals(reactContext.getCacheDir())) {
+//             file.delete();
+//         }
+        //new version below
+//        final String path = Uri.parse(uri).getPath();
+//        if (path == null) return;
+//        File file = new File(path);
+//        if (!file.exists()) return;
+//        File parent = file.getParentFile();
+//        if (parent.equals(reactContext.getExternalCacheDir()) || parent.equals(reactContext.getCacheDir())) {
+//            file.delete();
+//        }
+
     }
 
     @ReactMethod
